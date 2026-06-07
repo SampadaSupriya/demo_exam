@@ -1,0 +1,251 @@
+Q5) Git Branching and Merge Conflict Resolution
+Create a Git repository named Lab_Q5 and create three branches named main,
+dev1, and dev2. Create a text file named Project_.txt containing 10 lines of content
+and commit it to the main branch. Modify the same line(s) of the file differently in
+both dev1 and dev2 branches and commit the changes in each branch. Attempt to
+merge dev2 into dev1, resulting in a merge conflict. Resolve the conflict manually,
+verify the file contents, and complete the merge. Next, make additional modifications
+to the same line(s) in both main and dev1 branches and commit the changes.
+Attempt to merge dev1 into main, creating another merge conflict. Resolve the
+conflict manually, complete the merge, and verify that the final file contains the
+intended content from all branches. Finally, display the branch history and merge
+history to confirm successful conflict resolution and integration of all changes.
+—
+Step 1: Create a New Git Repository
+We create a new Git repository named Lab_Q5 to manage source code versions
+and track changes across multiple branches.
+●
+●
+●
+mkdir Lab_Q5 → Creates a new project directory.
+cd Lab_Q5 → Moves into the project directory.
+git init → Initializes an empty Git repository.
+Step 2: Create the Main Branch
+We create the main branch which will act as the primary branch for the project.
+Command
+git checkout -b main
+●
+checkout → Switches branches.
+●
+-b → Creates a new branch.
+●
+main → Name of the primary branch.
+Step 3: Create Project File and First Commit
+We create a project file containing 10 lines of content and commit it as the initial
+project version.
+Command
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Initial project commit"
+Explanation of attributes
+●
+●
+●
+●
+vim → Opens the file editor.
+git add . → Stages all changes.
+git commit → Creates a repository snapshot.
+-m → Specifies commit message.
+Verify
+Step 4: Create Development Branches
+We create two independent development branches where different developers can
+work simultaneously.
+Command
+git checkout -b dev1
+git checkout main
+git checkout -b dev2
+Explanation of attributes
+●
+●
+●
+dev1 → First developer branch.
+dev2 → Second developer branch.
+checkout -b → Creates and switches to a new branch.
+Verify
+Step 5: Modify File in dev1 and Commit
+We modify a specific line in the file on the dev1 branch to create branch-specific
+changes.
+Command
+git checkout dev1
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Modified content in dev1"
+Explanation of attributes
+●
+●
+dev1 → Active development branch.
+Commit stores dev1-specific modifications.
+Verify
+Step 6: Modify Same Line in dev2 and Commit
+We modify the same line differently on the dev2 branch to intentionally create a
+merge conflict.
+Command
+git checkout dev2
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Modified content in dev2"
+Explanation of attributes
+●
+Different modification of the same line will trigger a conflict during merge.
+Verify
+Step 7: Merge dev2 into dev1
+We attempt to merge changes from dev2 into dev1. Since both branches modified
+the same line differently, Git will detect a conflict.
+Command
+git checkout dev1
+git merge dev2
+Explanation of attributes
+merge → Combines histories of two branches.
+dev2 → Source branch to merge.
+●
+●
+Verify
+Step 8: Resolve First Merge Conflict
+What are we doing and why?
+We manually resolve the conflict by editing the conflict markers and choosing the
+desired content.
+Command
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Resolved merge conflict between dev1 and dev2"
+Explanation of attributes
+●
+●
+Conflict markers are removed manually.
+Commit finalizes the merge.
+Step 9: Verify File Contents After Merge
+We ensure the merged file contains the intended content.
+Command
+cat Project_
+<PRN>.txt
+Explanation of attributes
+cat → Displays file content.
+●
+Verify
+Step 10: Modify Same Line in Main Branch
+We create another conflicting scenario by modifying the same line in the main
+branch.
+Command
+git checkout main
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Updated content in main"
+Explanation of attributes
+●
+Changes are committed to main branch.
+Step 11: Modify Same Line in dev1 Branch
+We make different modifications to the same line in dev1 branch.
+Command
+git checkout dev1
+vi Project_
+<PRN>.txt
+git add .
+git commit -m "Updated content in dev1"
+Explanation of attributes
+●
+Creates another merge conflict scenario.
+Step 12: Merge dev1 into Main
+We merge the development branch into main. Git detects another conflict because
+both branches modified the same line differently.
+Command
+git checkout main
+git merge dev1
+Explanation of attributes
+●
+Attempts integration of all development changes.
+Verify
+Step 13: Resolve Second Merge Conflict
+We manually resolve the second conflict and finalize integration.
+Command
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Resolved merge conflict between main and dev1"
+Explanation of attributes
+●
+Final conflict resolution commit.
+Step 14: Verify Final File Content
+What are we doing and why?
+We confirm that all intended changes from all branches are present.
+Command
+cat Project_
+<PRN>.txt
+Explanation of attributes
+●
+Displays final integrated content.
+Step 15: Display Branch History
+We verify branch structure and successful merges.
+Command
+git branch
+Explanation of attributes
+●
+●
+Lists all available branches.
+Shows the current active branch.
+Step 16: Display Merge History
+What are we doing and why?
+We verify successful conflict resolution and integration history.
+Command
+git log --oneline --graph
+Explanation of attributes
+●
+●
+●
+●
+log → Displays commit history.
+--oneline → Compact output.
+--graph → Visual merge graph.
+--all → Shows history from all branches.
+Memory Sheet (Command Flow)
+mkdir Lab_Q5
+cd Lab_Q5
+git init
+git checkout -b main
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Initial project commit"
+git checkout -b dev1
+git checkout main
+git checkout -b dev2
+git checkout dev1
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Modified content in dev1"
+git checkout dev2
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Modified content in dev2"
+git checkout dev1
+git merge dev2
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Resolved merge conflict between dev1 and dev2"
+git checkout main
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Updated content in main"
+git checkout dev1
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Updated content in dev1"
+git checkout main
+git merge dev1
+vim Project_
+<PRN>.txt
+git add .
+git commit -m "Resolved merge conflict between main and dev1"
+cat Project_
+<PRN>.txt
+git branch
+git log --oneline --graph --all

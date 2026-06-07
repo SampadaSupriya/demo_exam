@@ -1,0 +1,383 @@
+Q) GitHub Repository Management, Stash, Tagging and Log Analysis
+Create a GitHub repository named Lab
+Git
+_
+_
+<prn> using your GitHub account. Initialize a
+local Git repository named Lab
+Git and create a file named Exam
+details
+_
+_
+_
+.txt containing
+your PRN number. Commit the file and connect the local repository to the GitHub repository
+using your GitHub username and Personal Access Token (PAT). Push the repository to
+GitHub and verify that the files are available remotely.
+Modify the file by adding your full name and create a second commit. Make additional
+uncommitted changes containing a welcome message and save these changes using Git
+Stash. Create a new branch named feature, switch to it, and verify that the stashed changes
+are not present. Restore the stashed changes in the feature branch and commit them.
+Create another commit by adding the current date and time to the file. Create a lightweight
+tag named v1.0 on the current commit and an annotated tag named release-v1.1 with an
+appropriate description. Display all available tags and examine the information stored in the
+annotated tag.
+Use Git log commands to display the commit history in different formats, including commit
+IDs, author information, commit dates, and branch relationships. Identify the commit
+associated with each tag. Check out the repository using the v1.0 tag and verify the file
+contents. Return to the latest branch and confirm that all commits and tags remain intact
+both locally and on GitHub.
+Finally, push all commits and tags to GitHub and verify that the repository history, branches,
+stashes, and tags have been managed correctly throughout the exercise.
+—
+Step 1: Create a Local Git Repository
+We create a local Git repository named Lab
+_
+Git to track file changes before connecting it to
+GitHub.
+Command
+mkdir Lab_Git && cd Lab_Git
+git init
+Step 2: Create Exam Details File and First Commit
+We create a file containing the PRN number and save it as the first version of the project.
+vim Exam_details_
+<PRN>.txt
+git add .
+git commit -m "Initial commit with PRN"
+File Content
+First commit
+Explanation of attributes
+●
+●
+●
+git add . → Stages all files.
+git commit → Creates a repository snapshot.
+-m → Commit message.
+Step 3: Connect Local Repository to GitHub
+We link the local repository to the GitHub repository named Lab
+Git
+_
+.
+_
+Command
+git remote add origin https://github.com/<USERNAME>/Lab
+Git
+<PRN>
+_
+_
+.git
+Explanation of attributes
+●
+●
+●
+remote add → Creates a remote connection.
+origin → Default remote repository name.
+URL → GitHub repository address.
+Step 4: Push Repository to GitHub
+What are we doing and why?
+We upload the local repository to GitHub for remote storage and collaboration.
+Command
+git branch -M main
+git push -u origin main
+Explanation of attributes
+●
+●
+●
+●
+branch -M main → Renames current branch to main.
+push → Uploads commits.
+-u → Sets upstream tracking branch.
+origin main → Pushes to main branch on GitHub.
+Step 5: Add Name and Create Second Commit
+We modify the file by adding the student's name and save it as another version.
+Command
+vim Exam_details_
+<PRN>.txt
+git add .
+git commit -m "Added student name"
+File Content
+PRN: <PRN
+NUMBER>
+_
+Name: <FULL
+NAME>
+_
+Explanation of attributes
+●
+Creates a second commit in repository history.
+Step 6: Create Uncommitted Changes
+We add a welcome message but intentionally do not commit it to demonstrate Git Stash.
+Command
+vim Exam_details_
+<PRN>.txt
+Added Content
+Welcome to GitHub Repository Management Lab
+Step 7: Save Changes Using Git Stash
+Git Stash temporarily stores uncommitted changes without creating a commit.
+Command
+git stash
+Explanation of attributes
+●
+stash → Saves current working directory changes temporarily.
+Step 8: Create Feature Branch
+What are we doing and why?
+We create a new branch for feature development.
+Command
+git checkout -b feature
+Explanation of attributes
+●
+●
+●
+checkout → Switches branch.
+-b → Creates branch.
+feature → Branch name.
+Step 9: Verify Stashed Changes Are Not Present
+We confirm that stashed changes are removed from the working directory.
+Command
+cat Exam_details_
+<PRN>.txt
+Explanation of attributes
+●
+Displays current file content.
+Step 10: Restore Stashed Changes
+What are we doing and why?
+We apply the stashed changes inside the feature branch.
+Command
+git stash pop
+Explanation of attributes
+●
+stash pop → Restores and removes stash entry.
+Step 11: Commit Restored Changes
+What are we doing and why?
+We save the restored welcome message permanently.
+Command
+git add .
+git commit -m "Added welcome message"
+Explanation of attributes
+●
+Creates another commit on feature branch.
+Step 12: Add Current Date and Time
+What are we doing and why?
+We create another version before tagging.
+Command
+vim Exam
+details
+<PRN>
+.txt
+_
+_
+git add .
+git commit -m "Added current date and time"
+Added Content
+Date: <CURRENT
+DATE>
+_
+Time: <CURRENT
+TIME>
+_
+Step 13: Create Lightweight Tag
+We mark the current commit as version 1.0.
+Command
+git tag v1.0
+Explanation of attributes
+●
+●
+tag → Creates a Git tag.
+v1.0 → Lightweight tag name.
+Step 14: Create Annotated Tag
+Annotated tags contain additional metadata such as author, date, and description.
+Command
+git tag -a release-v1.1 -m "Stable release version 1.1"
+Explanation of attributes
+●
+●
+●
+-a → Creates annotated tag.
+release-v1.1 → Tag name.
+-m → Tag description.
+Step 15: Display All Tags
+We verify all created tags.
+Command
+git tag
+Explanation of attributes
+●
+Lists all available tags.
+Step 16: Examine Annotated Tag Information
+We inspect metadata stored in the annotated tag.
+Command
+git show release-v1.1
+Explanation of attributes
+●
+show → Displays tag and commit details.
+Step 17: Display Commit History in Different Formats
+We analyze repository history using various log views.
+Command
+git log
+git log --oneline
+git log --graph --all
+git log --decorate
+Explanation of attributes
+●
+●
+●
+●
+--oneline → Compact view.
+--graph → Graphical branch view.
+--all → Includes all branches.
+--decorate → Shows tags and branch names.
+Step 18: Identify Commits Associated with Tags
+We determine which commit each tag references.
+Command
+git show v1.0
+git show release-v1.1
+Explanation of attributes
+●
+Displays commit information linked to tags.
+Step 19: Checkout Using Tag v1.0
+What are we doing and why?
+We move repository state to the tagged version.
+Command
+git checkout v1.0
+●
+Checks out the commit referenced by tag v1.0.
+Step 20: Verify File Content
+What are we doing and why?
+We confirm the file reflects the tagged version.
+Command
+cat Exam
+details
+<PRN>
+.txt
+_
+_
+Explanation of attributes
+●
+Displays file content.
+Step 21: Return to Latest Branch
+We switch back to the feature branch and continue normal development.
+Command
+git checkout feature
+Explanation of attributes
+●
+Returns to latest working branch.
+Step 22: Push All Commits and Tags to GitHub
+What are we doing and why?
+We synchronize all local changes, branches, and tags with GitHub.
+git push origin feature
+git push origin --tags
+Explanation of attributes
+●
+●
+●
+origin → Remote repository.
+feature → Branch to push.
+--tags → Pushes all tags.
+Step 23: Verify Repository Status
+We confirm successful management of commits, tags, branches, and stash operations.
+Command
+git branch
+git tag
+git stash list
+git log --graph --oneline --all
+Explanation of attributes
+●
+●
+●
+branch → Lists branches.
+tag → Lists tags.
+stash list → Shows available stashes.
+●
+log --graph --all → Displays complete repository history.
+Memory Sheet (Command Flow)
+mkdir Lab
+Git
+_
+cd Lab
+Git
+_
+git init
+vim Exam
+details
+<PRN>
+.txt
+_
+_
+git add .
+git commit -m "Initial commit with PRN"
+git remote add origin https://github.com/<USERNAME>/Lab
+Git
+<PRN>
+_
+_
+.git
+git branch -M main
+git push -u origin main
+vim Exam
+details
+<PRN>
+.txt
+_
+_
+git add .
+git commit -m "Added student name"
+vim Exam
+details
+<PRN>
+.txt
+_
+_
+git stash
+git checkout -b feature
+git stash pop
+git add .
+git commit -m "Added welcome message"
+vim Exam
+details
+<PRN>
+.txt
+_
+_
+git add .
+git commit -m "Added current date and time"
+git tag v1.0
+git tag -a release-v1.1 -m "Stable release version 1.1"
+git tag
+git show release-v1.1
+git log
+git log --oneline
+git log --graph --all
+git log --decorate
+git show v1.0
+git show release-v1.1
+git checkout v1.0
+cat Exam
+details
+<PRN>
+.txt
+_
+_
+git checkout feature
+git push origin feature
+git push origin --tags
+git branch
+git tag
+git stash list
+git log --graph --oneline --all
+Log out GitHub account from Git Bash (Windows)
+First check what credentials Git is using:
+git config --global user.name
+git config --global user.email
+Remove global identity:
+git config --global --unset user.name
+git config --global --unset user.email
+Check stored credentials:
+git credential-manager erase
+Or open:
+Control Panel → Credential Manager → Windows Credentials
+Delete entries such as:
+●
+●
+git:https://github.com
+github.com
+Verify:
+git config --global --list

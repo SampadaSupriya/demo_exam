@@ -1,0 +1,309 @@
+Q) Secure VPC Architecture with Bastion Host
+Create a VPC named Lab_VPC_<PRN> with CIDR block 10.0.0.0/16. Create one
+Public Subnet (10.0.1.0/24) and one Private Subnet (10.0.2.0/24). Attach an
+Internet Gateway and configure route tables such that only the Public Subnet
+has internet access. Launch one EC2 instance in each subnet. Configure
+Security Groups so that the Public EC2 can be accessed from your local
+machine through SSH, while the Private EC2 can only be accessed from the
+Public EC2. Create a file containing your PRN number on the Public EC2,
+transfer it securely to the Private EC2, and verify the contents. Demonstrate
+successful SSH connectivity from Local Machine → Public EC2 → Private EC2.
+Q) Secure VPC Architecture with Bastion Host
+Step 1: Create a Custom VPC
+A VPC (Virtual Private Cloud) provides an isolated network environment in AWS. We
+create a custom VPC to control networking, routing, and security.
+UI Steps
+1. Login to AWS Console.
+2. Search VPC.
+3. Click Your VPCs.
+4. Click Create VPC.
+5. Select VPC only.
+Configuration
+Field Value
+Name Tag Lab_VPC_<prn>
+IPv4 CIDR 10.0.0.0/16
+IPv6 CIDR No IPv6
+Tenancy Default
+6. Click Create VPC.
+Explanation of Attributes
+●
+●
+10.0.0.0/16 → Provides 65,536 IP addresses.
+Default Tenancy → Uses shared AWS hardware.
+Step 2: Create Public Subnet
+The Public Subnet will host the Bastion Host (Public EC2) which is accessible from
+the internet.
+UI Steps
+1. Open Subnets.
+2. Click Create Subnet.
+Configuration
+Field Value
+VPC Lab_VPC_<prn>
+Name Public_Subnet
+AZ ap-south-1a
+CIDR 10.0.1.0/24
+3. Click Create Subnet.
+Explanation of Attributes
+●
+●
+10.0.1.0/24 → Provides 256 IP addresses.
+Public subnet will receive internet access through IGW.
+Step 3: Create Private Subnet
+The Private Subnet hosts internal resources which should not be directly accessible
+from the internet.
+UI Steps
+1. Click Create Subnet.
+Configuration
+Field Value
+VPC Lab_VPC_<prn>
+Name Private_Subnet
+AZ ap-south-1b
+CIDR 10.0.2.0/24
+2. Click Create Subnet.
+Explanation of Attributes
+●
+●
+10.0.2.0/24 → Private network segment.
+No direct internet access.
+Step 4: Create Internet Gateway
+Internet Gateway allows internet communication for resources inside the Public
+Subnet.
+UI Steps
+1. Open Internet Gateways.
+2. Click Create Internet Gateway.
+Configuration
+Field Value
+Name Lab_IGW
+3. Click Create.
+4. Select IGW.
+5. Click Attach to VPC.
+6. Select Lab_VPC_.
+Explanation of Attributes
+●
+IGW enables internet routing.
+Step 5: Create Public Route Table
+Route table defines how network traffic travels.
+UI Steps
+1. Open Route Tables.
+2. Click Create Route Table.
+Configuration
+Field Value
+Name Public_RT
+VPC Lab_VPC_
+3. Create Route Table.
+Add Route
+sdgWe are adding a route that allows instances in the Public Subnet to access the
+Internet through the Internet Gateway (IGW).
+UI Steps
+1. Open VPC Dashboard.
+2. Click Route Tables from the left menu.
+3. Select Public_RT.
+4. Click the Routes tab.
+5. Click Edit Routes.
+6. Click Add Route.
+Fill the details:
+Field Value
+Destination 0.0.0.0/0
+Target Internet Gateway
+7. Click the Target dropdown.
+8. Select your Internet Gateway (Lab_IGW).
+9. Click Save Changes.
+Explanation of Attributes
+●
+●
+0.0.0.0/0 → Represents all IPv4 addresses (entire Internet).
+Internet Gateway (IGW) → Allows traffic to enter and leave the VPC through
+the Internet.
+Associate Public Route Table with Public Subnet
+What are we doing and why?
+A route table becomes effective only after it is associated with a subnet. Associating
+Public_RT with Public_Subnet makes that subnet internet accessible.
+UI Steps
+1. Select Public_RT.
+2. Click the Subnet Associations tab.
+3. Click Edit Subnet Associations.
+4. Select:Public_Subnet (10.0.1.0/24)
+5. Click Save Associations.
+Verification
+After saving, you should see:
+Route Table: Public_RT
+Associated Subnets:
+✓ Public_Subnet
+Step 6: Create Private Route Table
+Private subnet should remain isolated from internet.
+UI Steps
+1. Create another Route Table.
+Configuration
+Field Value
+Name Private_RT
+VPC Lab_VPC_<prn>
+Associate
+Associate only with:
+●
+Private_Subnet
+Explanation of Attributes
+●
+●
+No internet route added.
+Subnet remains private.
+Step 7: Enable Auto Assign Public IP
+Public EC2 requires a public IP for SSH access.
+UI Steps
+1. Open Subnets.
+2. Select Public_Subnet.
+3. Edit Subnet Settings.
+4. Enable:
+Auto-assign Public IPv4 Address
+5. Save.
+Step 8: Create Security Group for Public EC2
+Allows SSH from your laptop to Bastion Host.
+UI Steps
+Create Security Group.
+Configuration
+Field Value
+Name Public_SG
+VPC Lab_VPC_<prn>
+Inbound Rules
+Type Port Source
+SSH 22 My IP
+Explanation
+●
+Only your machine can SSH.
+Step 9: Create Security Group for Private EC2
+Allows SSH only from Bastion Host.
+UI Steps
+Create Security Group.
+Configuration
+Field Value
+Name Private_SG
+Inbound Rules
+Type Port Source
+SSH 22 Public_SG
+Explanation
+●
+Only Public EC2 can access Private EC2.
+Step 10: Launch Public EC2 (Bastion Host)
+Acts as a jump server to access private resources.
+UI Steps
+Launch Instance.
+Configuration
+Field Value
+Name Public_EC2
+AMI Ubuntu
+Type t2.micro
+Key Pair Existing/New
+VPC Lab_VPC_<prn>
+Subnet Public_Subnet
+Security Group Public_SG
+Public IP Enable
+Launch instance.
+Step 11: Launch Private EC2
+This server remains inaccessible directly from the internet.
+UI Steps
+Launch Instance.
+Configuration
+Field Value
+Name Private_EC2
+AMI Ubuntu
+Type t2.micro
+VPC Lab_VPC_<prn>
+Subnet Private_Subnet
+Security Group Private_SG
+Public IP Disable
+Launch instance.
+Step 12: Connect Local Machine to Public EC2
+Verify Bastion Host accessibility.
+Command
+ssh -i lab.pem ubuntu@<PUBLIC_EC2_PUBLIC_IP>
+Explanation
+●
+●
+-i → Private key.
+ubuntu → Ubuntu username.
+Navigate to the folder containing the key:
+cd C:\key
+Remove inherited permissions:
+icacls <<your
+_
+key_
+name>>
+.pem /inheritance:r
+Grant permission only to your account:
+icacls <<your
+_
+key_
+name>>
+.pem /grant:r "$($env:USERNAME):(R)"
+Verify:
+icacls <<your
+_
+key_
+name>>
+.pem
+Step 13: Copy Key to Public EC2
+Private EC2 will be accessed from Public EC2.
+Command (Local Machine)
+scp -i lab.pem lab.pem ubuntu@<PUBLIC_EC2_PUBLIC_IP>:/home/ubuntu/
+Explanation
+●
+Securely transfers PEM key.
+Step 14: Create PRN File on Public EC2
+Create a file that will be transferred to Private EC2.
+Command
+echo "PRN: 260240123060" > prn.txt
+Step 15: SSH from Public EC2 to Private EC2
+Verify Bastion Host architecture.
+Command
+chmod 400 lab.pem
+ssh -i lab.pem ubuntu@<PRIVATE_EC2_PRIVATE_IP>
+Explanation
+●
+Connects to Private EC2 through Bastion Host.
+Step 16: Transfer File to Private EC2
+Securely transfer PRN file.
+Command (Public EC2)
+scp -i lab.pem prn.txt ubuntu@<PRIVATE_EC2_PRIVATE_IP>:/home/ubuntu/
+Explanation
+●
+Secure file transfer.
+Step 17: Verify File on Private EC2
+Confirm successful transfer.
+Command
+cat prn.txt
+Expected Output
+PRN: 260240123060
+Step 18: Demonstrate Connectivity Flow
+Verify complete Bastion Host architecture.
+Connectivity Verification
+Local Machine
+│
+▼
+Public EC2 (Bastion Host)
+│
+▼
+Private EC2
+Verification Evidence
+1. SSH Local → Public EC2.
+2. SSH Public EC2 → Private EC2.
+3. File Transfer Public → Private.
+4. File Verification on Private EC2.
+Memory Sheet (Command Flow)
+ssh -i lab.pem ubuntu@<PUBLIC_IP>
+scp -i lab.pem lab.pem ubuntu@<PUBLIC_IP>:/home/ubuntu/
+echo "PRN: 260240123060" > prn.txt
+chmod 400 lab.pem
+ssh -i lab.pem ubuntu@<PRIVATE_IP>
+scp -i lab.pem prn.txt ubuntu@<PRIVATE_IP>:/home/ubuntu/
+cat prn.txt
+This flow demonstrates:
+Local Machine
+↓
+Public EC2 (Bastion)
+↓
+Private EC2
+↓
+PRN File Transfer Verification
+PAISA NAHI HAI
+APNE PAS SABKUCH
+REVERSE ORDER
+MAIN DELETE KARO!
