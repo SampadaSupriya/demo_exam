@@ -1,0 +1,158 @@
+Q1) EC2 Snapshot and AMI Creation
+Launch an Ubuntu EC2 instance named Lab
+Q1
+_
+_
+Apache and configure the security group
+to allow SSH (Port 22) and HTTP (Port 80) access. Install the Apache2 web server and
+create a web page at /var/www/html/index.html displaying your PRN number. Verify that
+the website is accessible through the instance's public IP address.
+Create an EBS Snapshot of the root volume attached to the instance and provide an
+appropriate description. Using the created snapshot, create an AMI named
+Lab
+Q1
+_
+_
+Apache
+_
+snapshot.
+Launch a new EC2 instance named snap_
+Lq1 using the AMI and ensure that the new
+instance is launched in a different Availability Zone from the original instance. Verify that
+the Apache website is accessible from the public IP address of the new instance and that it
+displays the same PRN number as the original instance.
+Step 1: Launch Original EC2 Instance
+UI Steps
+1. AWS Console → EC2
+2. Click Launch Instance
+Configuration
+Field Value
+Name Lab
+Q1
+_
+_
+Apache
+AMI Ubuntu Server
+Instance Type t2.micro
+Key Pair Existing/New
+Network Default VPC
+Auto Assign Public IP Enable
+Security Group Allow HTTP (80) and SSH (22)
+3. Click Launch Instance
+📸 Screenshot: Original EC2 Created
+Step 2: Connect and Install Apache
+Connect
+ssh -i key.pem ubuntu@<PUBLIC
+_
+IP>
+Install Apache
+sudo apt update
+sudo apt install apache2 -y
+Verify Apache
+systemctl status apache2
+Step 3: Create Web Page
+Command
+echo "<h1>PRN: 260240123060</h1>" | sudo tee /var/www/html/index.html
+Verify
+cat /var/www/html/index.html
+📸 Screenshot: index.html Content
+Step 4: Verify Website
+Browser
+http://<PUBLIC
+IP>
+_
+Expected:
+PRN: 260240123060
+📸 Screenshot: Website Working
+Step 5: Create EBS Snapshot
+UI Steps
+1. EC2 → Instances
+2. Select Lab
+Q1
+_
+_
+Apache
+3. Storage Tab
+4. Click Volume ID
+Create Snapshot
+1. Select Volume
+2. Actions → Create Snapshot
+Configuration
+Field Value
+Description Snapshot of Lab
+Q1
+_
+_
+Apache
+3. Click Create Snapshot
+📸 Screenshot: Snapshot Created
+Step 6: Create AMI
+UI Steps
+1. EC2 → AMIs
+2. Click Create AMI
+OR
+1. Select Snapshot
+2. Actions → Create Image
+Configuration
+Field Value
+Name Lab
+Q1
+_
+_
+Apache
+_
+snapshot
+3.
+Click Create AMI
+Wait until:
+Available
+📸 Screenshot: AMI Available
+Step 7: Launch New EC2 from AMI
+UI Steps
+1. EC2 → AMIs
+2. Select:Lab
+Q1
+_
+_
+Apache
+_
+snapshot
+3. Click Launch Instance from AMI
+Configuration
+Field Value
+Name snap_
+Lq1
+Type t2.micro
+Key Pair Same Key
+Security Group HTTP + SSH
+Step 8: Launch in Different Availability Zone
+UI Steps
+Network Settings → Edit
+Select a different AZ.
+Example:
+Original Instance New Instance
+ap-south-1a ap-south-1b
+Launch Instance.
+📸 Screenshot: New Instance Created
+Step 9: Verify Website on New Instance
+Copy new Public IP.
+Open browser:
+http://<NEW
+PUBLIC
+IP>
+_
+_
+Expected:
+PRN: 260240123060
+Same page should appear.
+📸 Screenshot: Website on New Instance
+Step 10: Display Resource Details
+Original EC2
+EC2 → Instances
+Show:
+Lab
+Q1
+_
+_
+Apache
+📸 Screenshot

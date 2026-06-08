@@ -1,0 +1,350 @@
+Q1) Amazon S3 Bucket Creation, File Upload and Public Access
+Create an Amazon S3 bucket with a unique name such as my-basic-bucket- using
+the AWS Management Console. Open the bucket and upload two files named
+index.html and error.html. Verify that both files are successfully uploaded to the
+bucket.
+Configure the bucket and object permissions as required to allow public access to
+the uploaded files. Copy the Object URL of the uploaded index.html file and access
+it through a web browser to verify that the webpage is displayed successfully.
+Similarly, copy the Object URL of the error.html file and verify that it can also be
+accessed through a web browser. Demonstrate that both files are available publicly
+using their respective URLs.
+Q2) Amazon S3 Bucket Versioning – Upload, Update, Delete and Restore
+Previous Version
+Create an Amazon S3 bucket named using your PRN number and enable Bucket
+Versioning. Upload a file named Q3
+_
+.docx to the bucket and verify that the file is available.
+Modify the file locally and upload it again using the same filename so that Amazon S3
+creates a new version of the object. Enable Show Versions and verify that multiple versions
+of the file exist in the bucket.
+Access and verify both the current version and the previous version of the file. Delete the
+latest version of the object and confirm that the object is no longer represented by that
+version. Using S3 Versioning, restore the previous version of the file by making it the active
+version again. Verify that the restored version becomes the current accessible version of the
+object.
+Q1) Amazon S3 Bucket Creation, File Upload and Public Access
+Create an Amazon S3 bucket with a unique name such as my-basic-bucket- using
+the AWS Management Console. Open the bucket and upload two files named
+index.html and error.html. Verify that both files are successfully uploaded to the
+bucket.
+Configure the bucket and object permissions as required to allow public access to
+the uploaded files. Copy the Object URL of the uploaded index.html file and access
+it through a web browser to verify that the webpage is displayed successfully.
+Similarly, copy the Object URL of the error.html file and verify that it can also be
+accessed through a web browser. Demonstrate that both files are available publicly
+using their respective URLs.
+Step 1: Create an S3 Bucket
+An S3 bucket is a storage container used to store files and objects in AWS.
+UI Steps
+1. Login to AWS Console.
+2. Search S3.
+3. Open Amazon S3.
+4. Click Create Bucket.
+Configuration
+Field Value
+Bucket Name my-basic-bucket-UNIQ
+UE
+Region Any Region
+Object Ownership ACLs Disabled
+Block Public Access Uncheck All Options
+5. Check:
+I acknowledge that the current settings might result in this bucket and the objects within
+becoming public.
+6. Click Create Bucket.
+Screenshot
+📸 Bucket Creatio
+Step 2: Open the Bucket
+Access the bucket to upload files.
+UI Steps
+1. Click bucket name: my-basic-bucket-<PRN>
+2. Open Objects tab.
+Screenshot
+📸 Empty Bucket
+Step 3: Create index.html
+This file will act as the main webpage.
+File Content
+<html>
+<head>
+<title>Home Page</title>
+</head>
+<body>
+<h1>Welcome to S3 Static Website</h1>
+<h2>PRN: 260240123060</h2>
+</body>
+</html>
+Save as:
+index.html
+Step 4: Create error.html
+This file will be displayed when a page is not found.
+File Content
+<html>
+<head>
+<title>Error Page</title>
+</head>
+<body>
+<h1>404 Error</h1>
+<h2>Requested Page Not Found</h2>
+</body>
+</html>
+Save as:
+error.html
+Step 5: Upload index.html
+Upload the main webpage to S3.
+UI Steps
+1. Open bucket.
+2. Click Upload.
+3. Click Add Files.
+4. Select:
+index.html
+5. Click Upload.
+Screenshot
+📸 Upload index.html
+Step 6: Upload error.html
+Upload the custom error page.
+UI Steps
+1. Click Upload.
+2. Click Add Files.
+3. Select:
+error.html
+4. Click Upload.
+Screenshot
+📸 Upload error.html
+Step 7: Verify Both Files
+Confirm successful uploads.
+UI Steps
+Open Objects tab.
+Expected:
+index.html
+error.html
+Screenshot
+📸 Both Files Present
+Step 8: Make index.html Public
+Allow browser access to the file.
+UI Steps
+1. Select:index.html
+2. Click Actions
+3. Click Make Public Using ACL
+OR
+1. Open file.
+2. Permissions Tab.
+3. Grant:Everyone (public access)
+Read Object
+4. Save.
+{
+"Version": "2012-10-17"
+,
+"Statement": [
+{
+"Sid": "PublicReadAccess"
+,
+"Effect": "Allow"
+,
+"Principal": "*"
+,
+"Action": "s3:GetObject"
+,
+"Resource": "arn:aws:s3:::my-basic-bucket-unique-20260607/*"
+}
+]
+}
+Screenshot
+📸 Public Access for index.html
+Step 9: Make error.html Public
+Allow browser access to the error page.
+UI Steps
+Repeat the same process for:
+error.html
+Screenshot
+📸 Public Access for error.html
+Q2) Amazon S3 Bucket Versioning – Upload, Update, Delete and Restore
+Previous Version
+Create an Amazon S3 bucket named using your PRN number and enable Bucket
+Versioning. Upload a file named Q3
+_
+.docx to the bucket and verify that the file is available.
+Modify the file locally and upload it again using the same filename so that Amazon S3
+creates a new version of the object. Enable Show Versions and verify that multiple versions
+of the file exist in the bucket.
+Access and verify both the current version and the previous version of the file. Delete the
+latest version of the object and confirm that the object is no longer represented by that
+version. Using S3 Versioning, restore the previous version of the file by making it the active
+version again. Verify that the restored version becomes the current accessible version of the
+object.
+Step 1: Create an S3 Bucket
+Creating an S3 bucket to store files and manage versions of objects.
+UI Steps
+1. Login to AWS Console.
+2. Search S3 in the search bar.
+3. Open Amazon S3.
+4. Click Create bucket.
+Configuration
+Field Value
+Bucket Type General Purpose
+Bucket Name <PRN_Number>
+Region Any Region
+Bucket Versioning Enable
+5. Scroll down.
+6. Click Create Bucket.
+Explanation of Attributes
+Attribute Purpose
+Bucket Name Unique storage container
+Region AWS location where data is stored
+Versioning Maintains multiple versions of files
+Screenshot
+📸 Bucket Creation
+Step 2: Verify Versioning is Enabled
+Ensuring S3 can preserve previous versions when a file is modified.
+UI Steps
+1. Open the created bucket.
+2. Select Properties tab.
+3. Scroll to Bucket Versioning.
+Expected:
+Bucket Versioning: Enabled
+Screenshot
+📸 Versioning Enabled
+Step 3: Upload Initial File
+Uploading the first version of the document.
+UI Steps
+1. Open bucket.
+2. Go to Objects tab.
+3. Click Upload.
+4. Click Add Files.
+5. Select:Q3
+<PRN>
+.docx
+_
+6. Click Upload.
+Verification
+File should appear under Objects.
+Screenshot
+📸 Initial File Upload
+Step 4: Verify Uploaded File
+Confirming the object exists inside the bucket.
+UI Steps
+1. In Objects tab.
+2. Verify:Q3
+_
+<PRN>
+.docx
+appears.
+3. Click the file name.
+4. Verify object details.
+Screenshot
+📸 File Available in Bucket
+Step 5: Modify the File Locally
+Creating a second version of the object.
+Local Action
+1. Open:Q3
+<PRN>
+.docx
+_
+2. Add some text such as:Updated Version
+3. Save the file.
+Step 6: Upload Updated File
+Uploading the same filename creates a new object version because versioning is enabled.
+UI Steps
+1. Return to bucket.
+2. Click Upload.
+3. Select the modified file:Q3
+_
+4. Click Upload.
+<PRN>
+.docx
+Expected Result
+Object name remains same but Version ID changes.
+Screenshot
+📸 Updated File Upload
+Step 7: Display Multiple Versions
+Viewing all versions maintained by S3.
+UI Steps
+1. Open bucket.
+2. Go to Objects tab.
+3. Enable:
+Show Versions
+(checkbox near top-right)
+Expected Result
+You should see:
+Q3
+<PRN>
+.docx Version 2
+_
+Q3
+<PRN>
+.docx Version 1
+_
+Each version has a unique Version ID.
+Screenshot
+📸 Multiple Versions Displayed
+Step 8: Access Current and Previous Versions
+Verifying that both versions exist.
+UI Steps
+1. Click Version 1.
+2. Verify Version ID.
+Repeat for:
+Version 2
+Verify different Version ID.
+Screenshot
+📸 Current Version
+📸 Previous Version
+Step 9: Delete Latest Version
+Removing the newest version while preserving older versions.
+UI Steps
+1. Keep Show Versions enabled.
+2. Select the latest version.
+3. Click Delete.
+4. AWS asks for confirmation.
+5. Type:permanently delete
+6. Click Delete Objects.
+Expected Result
+Latest version disappears.
+Older version remains.
+Screenshot
+📸 Deletion of Latest Version
+Step 10: Restore Previous Version
+Making the older version the active version again.
+UI Steps
+1. Enable Show Versions.
+2. Locate the previous version.
+3. If a delete marker exists:
+○
+Select Delete Marker.
+○
+Click Delete.
+4. Otherwise, previous version automatically becomes current after deleting latest
+version.
+Expected Result
+Previous version is now active.
+Screenshot
+📸 Restoration of Previous Version
+Step 11: Verify Restored Version
+Confirming successful recovery.
+UI Steps
+1. Open the object.
+2. Verify:
+○
+File exists.
+○
+Earlier content is visible.
+3. Check Version ID.
+Expected Result
+The first version becomes the active/current version.
+Screenshot
+📸 Successful Access to Restored File
+Final Verification
+After completion:
+Bucket Created
+↓
+Versioning Enabled
+↓
+Upload Version 1
+↓
+Upload Version 2
+↓
+Show Versions
+↓
+Delete Latest Version
+↓
+Restore Previous Version
+↓
+Verify Recovered File
